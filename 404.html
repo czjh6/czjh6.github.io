@@ -14,106 +14,10 @@
   <p>巨佬底下的渣滓</p>
   <p>科技爱好者</p>
   <p>(什么，觉得很丑咩，我bi-有时间排版咩？阿？)</p>
-  <canvas id="myCanvas"></canvas>
+  <a href="https//czjh6.github.io/canvas">超稿网页测试版</a>
   
-  <!--下面的JS为博客园l.w.x所写-->
-  <script type="text/javascript">  
-    
-
-    $(document).ready(function(){
-                var c=document.getElementById("myCanvas");
-                var ctx=c.getContext("2d");
-                c.width=800;
-                c.height=600;
-                
-                var tempx = -1, tempy = -1;
-                var shiftline=-1.0,shiftx=-1,shifty=-1;/*shift画直线，因为x,y太快捕捉不到角度，另起一个shiftx,shifty来储存*/
-                //*******用鼠标画线
-                function paintingLine(event){
-                    var event = event||window.event;
-                    
-                    //*******获取宽和高
-                    var bbox = c.getBoundingClientRect();
-                    var x = event.offsetX * (c.width / bbox.width);
-                    var y = event.offsetY * (c.height / bbox.height);    
-                    //********shift
-                    var shiftKey = event.shiftKey;
-                    if(shiftKey==true){
-                        if(shiftline==-1.0){
-                            if(shiftx==-1){
-                                shiftx = tempx;
-                                shifty = tempy;
-                            }
-                            if(timer==3){
-                                if(x-shiftx==0){
-                                    shiftline = -2.0;
-                                }
-                                else{
-                                    shiftline = (y-shifty)*1.0/(x-shiftx);
-                                }
-                                
-                            }
-                            timer = timer+1;
-                            
-                        }
-                        else{
-                            if(shiftline==-2.0){
-                                x = 0;
-                            }
-                            else{
-                                y = shifty+(x-shiftx) * shiftline;
-                            }
-                        }
-                        
-                    }
-                    else{
-                        shiftline = -1.0;
-                        shiftx = -1;
-                        shifty = -1;
-                        timer = 0;
-                    }
-                    //**********画线
-                    ctx.beginPath();
-                    ctx.moveTo(tempx, tempy);
-                    ctx.lineTo(x, y);
-                    ctx.stroke();
-                    ctx.closePath();
-                    //**********存值
-                    tempx = x;
-                    tempy = y;
-                }
-                //******按下鼠标开始画线
-                c.onmousedown = function(event){
-                    var event = event||window.event;
-                    var bbox = c.getBoundingClientRect();
-                    //*********存初值
-                    tempx=event.offsetX * (c.width / bbox.width);
-                    tempy=event.offsetY * (c.height / bbox.height);            
-                    //*******开始作画
-                    c.onmousemove = paintingLine;
-                };
-                //**********松开鼠标键停止作画
-                c.onmouseup = function(event){
-                    c.onmousemove = null;
-                    shiftline = -1.0;
-                    shiftx = -1;
-                    shifty = -1;
-                    timer = 0;
-                };
-                //**********离开界面停止作画
-                c.onmouseout = function(event){
-                    c.onmousemove = null;
-                    shiftline = -1.0;
-                    shiftx = -1;
-                    shifty = -1;
-                    timer = 0;
-                };
-            
-            });
-           
-        
-</script>  
   
+ 
 
 </body>
 </html>
