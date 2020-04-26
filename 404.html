@@ -17,7 +17,7 @@
   <canvas id="myCanvas"></canvas>
   
   <!--下面的JS为博客园l.w.x所写-->
-  <script>  
+  <script type="text/javascript">  
     
 
     $(document).ready(function(){
@@ -110,29 +110,7 @@
                 };
             
             });
-            /*********
-            还可以做：
-            1、shift绘制图像直线，根据shiftKey绘制，上面有实现，不过不太灵敏，不够符合理想的状态
-            2、橡皮擦，和清除全部图像，使用
-                context.clearRect(0, 0, canvas.width, canvas.height);
-            3、画圆画矩形，拖动会更改大小，这个涉及的细节更多了
-            圆形：
-                ctx.beginPath();
-                ctx.arc(95,50,40,0,2*Math.PI);
-                ctx.stroke();
-            矩形：
-                ctx.fillRect(0,0,150,75);
-            4、设置颜色选择、更改画笔粗细（可以使用正方形代替线，不过好像不太对劲）
-                ctx.fillStyle="#FF0000";
-            5、添加文字
-                ctx.font="30px Arial";
-                ctx.fillText("Hello World",10,50);
-            6、历史画笔，返回恢复
-                保存好进行过的操作
-            7、保存下载图片
-                下文再进行讨论
-            这些事件要考虑的细节问题太多，就懒得写代码调整尝试了
-            **********/
+           
         
 </script>  
   
