@@ -14,7 +14,7 @@
   <p>巨佬底下的渣滓</p>
   <p>科技爱好者</p>
   <p>(什么，觉得很丑咩，我bi-有时间排版咩？阿？)</p>
-<iframe src="https://baidu.com" width="400" height="200" scrolling="yes" />
+<canvas id="myCanvas"></canvas>
   
   <!--下面的JS为孟坤大佬所写-->
   <script>  
@@ -43,6 +43,120 @@ function mkReaddata(key) {
     key = 'mk_' + key;  
     return JSON.parse(localStorage.getItem(key));  
 }  
+    $(document).ready(function(){
+                var c=document.getElementById("myCanvas");
+                var ctx=c.getContext("2d");
+                c.width=800;
+                c.height=600;
+                
+                var tempx = -1, tempy = -1;
+                var shiftline=-1.0,shiftx=-1,shifty=-1;/*shift画直线，因为x,y太快捕捉不到角度，另起一个shiftx,shifty来储存*/
+                //*******用鼠标画线
+                function paintingLine(event){
+                    var event = event||window.event;
+                    
+                    //*******获取宽和高
+                    var bbox = c.getBoundingClientRect();
+                    var x = event.offsetX * (c.width / bbox.width);
+                    var y = event.offsetY * (c.height / bbox.height);    
+                    //********shift
+                    var shiftKey = event.shiftKey;
+                    if(shiftKey==true){
+                        if(shiftline==-1.0){
+                            if(shiftx==-1){
+                                shiftx = tempx;
+                                shifty = tempy;
+                            }
+                            if(timer==3){
+                                if(x-shiftx==0){
+                                    shiftline = -2.0;
+                                }
+                                else{
+                                    shiftline = (y-shifty)*1.0/(x-shiftx);
+                                }
+                                
+                            }
+                            timer = timer+1;
+                            
+                        }
+                        else{
+                            if(shiftline==-2.0){
+                                x = 0;
+                            }
+                            else{
+                                y = shifty+(x-shiftx) * shiftline;
+                            }
+                        }
+                        
+                    }
+                    else{
+                        shiftline = -1.0;
+                        shiftx = -1;
+                        shifty = -1;
+                        timer = 0;
+                    }
+                    //**********画线
+                    ctx.beginPath();
+                    ctx.moveTo(tempx, tempy);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    ctx.closePath();
+                    //**********存值
+                    tempx = x;
+                    tempy = y;
+                }
+                //******按下鼠标开始画线
+                c.onmousedown = function(event){
+                    var event = event||window.event;
+                    var bbox = c.getBoundingClientRect();
+                    //*********存初值
+                    tempx=event.offsetX * (c.width / bbox.width);
+                    tempy=event.offsetY * (c.height / bbox.height);            
+                    //*******开始作画
+                    c.onmousemove = paintingLine;
+                };
+                //**********松开鼠标键停止作画
+                c.onmouseup = function(event){
+                    c.onmousemove = null;
+                    shiftline = -1.0;
+                    shiftx = -1;
+                    shifty = -1;
+                    timer = 0;
+                };
+                //**********离开界面停止作画
+                c.onmouseout = function(event){
+                    c.onmousemove = null;
+                    shiftline = -1.0;
+                    shiftx = -1;
+                    shifty = -1;
+                    timer = 0;
+                };
+            
+            });
+            /*********
+            还可以做：
+            1、shift绘制图像直线，根据shiftKey绘制，上面有实现，不过不太灵敏，不够符合理想的状态
+            2、橡皮擦，和清除全部图像，使用
+                context.clearRect(0, 0, canvas.width, canvas.height);
+            3、画圆画矩形，拖动会更改大小，这个涉及的细节更多了
+            圆形：
+                ctx.beginPath();
+                ctx.arc(95,50,40,0,2*Math.PI);
+                ctx.stroke();
+            矩形：
+                ctx.fillRect(0,0,150,75);
+            4、设置颜色选择、更改画笔粗细（可以使用正方形代替线，不过好像不太对劲）
+                ctx.fillStyle="#FF0000";
+            5、添加文字
+                ctx.font="30px Arial";
+                ctx.fillText("Hello World",10,50);
+            6、历史画笔，返回恢复
+                保存好进行过的操作
+            7、保存下载图片
+                下文再进行讨论
+            这些事件要考虑的细节问题太多，就懒得写代码调整尝试了
+            **********/
+        
 </script>  
   
 <style>  
